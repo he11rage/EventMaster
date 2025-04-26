@@ -1,42 +1,11 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Event Master</title>
-    <link href="static/css/style.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <aside class="left-menu">
-        <img class="user-image" src="static/img/user.svg" alt="Фото пользователя" width="80px" height="90px">
-        <div class="user-info">
-            <h2 class="name">Иван Иванов</h2>
-            <a class="exit-image" href="#">
-                <img class="exit-image" src="static/img/exit.svg" alt="Иконка выхода" width="30px" height="35px">
-            </a>
-        </div>
-        <ul class="menu-navigation-list">
-            <li class="menu-navigation-item">
-                <img class="calendar-image" src="static/img/calendar.svg" alt="Календарь" width="20px" height="20px">
-                <a href="#">Расписание</a>
-            </li>
-            <li class="menu-navigation-item">
-                <img class="find-image" src="static/img/filter.svg" alt="Поиск мероприятий" width="20px" height="20px">
-                <a href="#">Мероприятия</a>
-            </li>
-            <li class="menu-navigation-item">
-                <img class="share-image" src="static/img/action.svg" alt="Создание мероприятия" width="20px" height="20px">
-                <a href="#">Создать мероприятие</a>
-            </li>
-        </ul>
-    </aside>
+{% extends 'main/layout.html' %}
 
-    <main>
-        <p>
-            Блок основного контента
-        </p>
-    </main>
+{% block title %}Event Master{% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+<p>
+    Здесь контент который находится справа страницы в блоке main
+</p>
+
+{% endblock %}
