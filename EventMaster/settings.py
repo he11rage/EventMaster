@@ -116,7 +116,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/' # URL для статических файлов
+STATIC_URL = '/static/' # URL для статических файлов
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -125,3 +125,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+MEDIA_URL = 'media/'  # URL для доступа к медиа-файлам в браузере
+MEDIA_ROOT = BASE_DIR / 'media'  # Путь к директории, где будут храниться медиа-файлы на сервере
+
+LANGUAGE_CODE = 'ru'  # Устанавливаем русский язык для проекта
+
+USE_I18N = True  # Включаем поддержку интернационализации
+USE_L10N = True  # Включаем локализацию
+USE_TZ = True  # Включаем поддержку временных зон

@@ -29,7 +29,7 @@ body {
 
 .name {
 	padding: 5px;
-	margin-left: auto;
+	margin: 0;
 }
 
 .exit-image {
@@ -54,7 +54,7 @@ body {
 
 main {
 	width: 100%;
-	background-color: greenyellow;
+	background-color: white;
 }
 
 /* CSS */
@@ -151,11 +151,12 @@ main {
 }
 
 .event-info .event-city::after {
-	content: " • ";
+	
 }
 
 .event-info .event-city {
 	/* стили для города */
+
 }
 
 .event-info .event-date {
