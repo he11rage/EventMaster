@@ -1,197 +1,415 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
-    <!--<link href="{% static 'css/outline.css' %}" rel="stylesheet" />-->
-	<!--<link href="{% static 'css/outline-settings.css' %}" rel="stylesheet" />  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
-    <script defer src="../../static/js/scripts.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block title %}
-		
-      {% endblock %}
-    </title>
-  </head>
-  <body>
-    <aside class="left-menu">
-      <img class="user-image" src="{% static 'img/user.svg' %}" alt="Фото пользователя" width="80px" height="90px" />
+	<head>
+		<meta charset="UTF-8" />
+		<link href="{% static 'css/style.css' %}" rel="stylesheet" />
+		<!--<link href="{% static 'css/outline.css' %}" rel="stylesheet" />-->
+		<!--<link href="{% static 'css/outline-settings.css' %}" rel="stylesheet" />  -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+			crossorigin="anonymous" />
+		<script defer src="../../static/js/scripts.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-      {% if user.is_authenticated %}
-        <h3 class="name">{{ user.first_name }} {{ user.last_name }}</h3>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="exit-button"><img class="exit-image" src="{% static 'img/exit.svg' %}" alt="Иконка выхода" width="30px" height="35px" /></button>
-        </form>
-      {% else %}
-        <h2 class="name">Гость</h2>
-        <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Войти</a>
-      {% endif %}
-      <ul class="menu-navigation-list">
-        <li class="menu-navigation-item">
-          <img class="calendar-image" src="{% static 'img/calendar.svg' %}" alt="Календарь" width="20px" height="20px" />
-          <a href="{% url 'schedule' %}">Расписание</a>
-        </li>
-        <li class="menu-navigation-item">
-          <img class="find-image" src="{% static 'img/filter.svg' %}" alt="Поиск мероприятий" width="20px" height="20px" />
-          <a href="{% url 'home' %}">Мероприятия</a>
-        </li>
-		{% if user.is_authenticated %}
-        <li class="menu-navigation-item">
-          <img class="share-image" src="{% static 'img/action.svg' %}" alt="Создание мероприятия" width="20px" height="20px" />
-          <a data-bs-toggle="modal" href="#exampleModalToggle3" role="button">Создать мероприятие</a>
-        </li>
-		{% endif %}
-      </ul>
-    </aside>
+		<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				var calendarEl = document.getElementById('calendar');
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					initialView: 'dayGridMonth',
+					locale: 'ru', // русская локализация
+					headerToolbar: {
+						// панель управления
+						left: 'prev,next today',
+						center: 'title',
+						right: 'dayGridMonth,timeGridWeek,timeGridDay',
+					},
+					events: [
+						{ title: 'Событие 1', start: '2025-05-15' },
+						{
+							title: 'Событие 2',
+							start: '2025-05-20',
+							end: '2025-05-22',
+						},
+					],
+				});
+				calendar.render();
+			});
+		</script>
 
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Авторизация</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form id="loginForm">
-              {% csrf_token %}
-              <div class="mb-3">
-                <label for="id_username" class="form-label">Логин</label>
-                <input type="text" class="form-control" id="id_username" name="username" />
-              </div>
-              <div class="mb-3">
-                <label for="id_password" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="id_password" name="password" />
-              </div>
-              <div id="error-message" style="color: red; display: none">Неверный логин или пароль.</div>
-              <button type="submit" class="btn btn-primary">Войти</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-dismiss="modal">Закрыть</button>
-            <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Нет аккаунта?</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Регистрация</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group" style="margin-top: 5px">
-              <label>Логин:</label>
-              <input type="text" class="form-control" id="login" name="login" required />
-            </div>
-            <div class="form-group" style="margin-top: 5px">
-              <label>Имя:</label>
-              <input type="text" class="form-control" id="name" name="name" required />
-            </div>
-            <div class="form-group" style="margin-top: 5px">
-              <label>Фамилия:</label>
-              <input type="text" class="form-control" id="surname" name="surname" required />
-            </div>
-            <div class="form-group" style="margin-top: 5px">
-              <label>Email:</label>
-              <input type="email" class="form-control" id="email" name="email" required />
-            </div>
-            <div class="form-group" style="margin-top: 5px">
-              <label>Пароль:</label>
-              <input type="password" class="form-control" id="password" name="password" required />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="register-button btn btn-success" type="button">Добавить</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть окно</button>
-          </div>
-        </div>
-      </div>
-    </div>
+		<title>{% block title %} {% endblock %}</title>
+	</head>
+	<body>
+		<aside class="left-menu">
+			<img
+				class="user-image"
+				src="{% static 'img/user.svg' %}"
+				alt="Фото пользователя"
+				width="80px"
+				height="90px" />
 
-	<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Создание мероприятия</h1>
-			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			{% if user.is_authenticated %}
+			<h3 class="name">{{ user.first_name }} {{ user.last_name }}</h3>
+			<form action="{% url 'logout' %}" method="post">
+				{% csrf_token %}
+				<button type="submit" class="exit-button">
+					<img
+						class="exit-image"
+						src="{% static 'img/exit.svg' %}"
+						alt="Иконка выхода"
+						width="30px"
+						height="35px" />
+				</button>
+			</form>
+			{% else %}
+			<h2 class="name">Гость</h2>
+			<a
+				class="btn btn-primary"
+				data-bs-toggle="modal"
+				href="#exampleModalToggle"
+				role="button"
+				>Войти</a
+			>
+			{% endif %}
+			<ul class="menu-navigation-list">
+				<li class="menu-navigation-item">
+					<img
+						class="calendar-image"
+						src="{% static 'img/calendar.svg' %}"
+						alt="Календарь"
+						width="20px"
+						height="20px" />
+					<a href="{% url 'schedule' %}">Расписание</a>
+				</li>
+				<li class="menu-navigation-item">
+					<img
+						class="find-image"
+						src="{% static 'img/filter.svg' %}"
+						alt="Поиск мероприятий"
+						width="20px"
+						height="20px" />
+					<a href="{% url 'home' %}">Мероприятия</a>
+				</li>
+				{% if user.is_authenticated %}
+				<li class="menu-navigation-item">
+					<img
+						class="share-image"
+						src="{% static 'img/action.svg' %}"
+						alt="Создание мероприятия"
+						width="20px"
+						height="20px" />
+					<a
+						data-bs-toggle="modal"
+						href="#exampleModalToggle3"
+						role="button"
+						>Создать мероприятие</a
+					>
+				</li>
+				{% endif %}
+			</ul>
+		</aside>
+
+		<div
+			class="modal fade"
+			id="exampleModalToggle"
+			aria-hidden="true"
+			aria-labelledby="exampleModalToggleLabel"
+			tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1
+							class="modal-title fs-5"
+							id="exampleModalToggleLabel">
+							Авторизация
+						</h1>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="loginForm">
+							{% csrf_token %}
+							<div class="mb-3">
+								<label for="id_username" class="form-label"
+									>Логин</label
+								>
+								<input
+									type="text"
+									class="form-control"
+									id="id_username"
+									name="username" />
+							</div>
+							<div class="mb-3">
+								<label for="id_password" class="form-label"
+									>Пароль</label
+								>
+								<input
+									type="password"
+									class="form-control"
+									id="id_password"
+									name="password" />
+							</div>
+							<div
+								id="error-message"
+								style="color: red; display: none">
+								Неверный логин или пароль.
+							</div>
+							<button type="submit" class="btn btn-primary">
+								Войти
+							</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							class="btn btn-secondary"
+							data-bs-target="#exampleModalToggle"
+							data-bs-dismiss="modal">
+							Закрыть
+						</button>
+						<button
+							class="btn btn-primary"
+							data-bs-target="#exampleModalToggle2"
+							data-bs-toggle="modal">
+							Нет аккаунта?
+						</button>
+					</div>
+				</div>
 			</div>
-			<div class="modal-body">
-			  <form id="event-form" enctype="multipart/form-data">
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Название мероприятия:</label>
-				  <input type="text" class="form-control" id="title" name="title" required />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Описание:</label>
-				  <textarea class="form-control" id="description" name="description"></textarea>
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Город:</label>
-				  <input type="text" class="form-control" id="city" name="city" required />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Место:</label>
-				  <input type="text" class="form-control" id="place" name="place" required />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Дата начала:</label>
-				  <input type="datetime-local" class="form-control" id="start_datetime" name="start_datetime" required />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Дата окончания:</label>
-				  <input type="datetime-local" class="form-control" id="end_datetime" name="end_datetime" required />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Категория:</label>
-				  <select class="form-control" id="category" name="category" required>
-					<option value="">Выберите категорию</option>
-				  </select>
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Изображение:</label>
-				  <input type="file" class="form-control" id="image" name="image" />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Цена:</label>
-				  <input type="number" step="0.01" class="form-control" id="price" name="price" />
-				</div>
-				<div class="form-group" style="margin-top: 5px">
-				  <label>Вместимость:</label>
-				  <input type="number" class="form-control" id="capacity" name="capacity" />
-				</div>
-			  </form>
-			</div>
-			<div class="modal-footer">
-			  <button class="create-event-button btn btn-success" type="button" id="submitEvent">Добавить</button>
-			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть окно</button>
-			</div>
-		  </div>
 		</div>
-	  </div>
-	  
-	  
+		<div
+			class="modal fade"
+			id="exampleModalToggle2"
+			aria-hidden="true"
+			aria-labelledby="exampleModalToggleLabel2"
+			tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1
+							class="modal-title fs-5"
+							id="exampleModalToggleLabel2">
+							Регистрация
+						</h1>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="margin-top: 5px">
+							<label>Логин:</label>
+							<input
+								type="text"
+								class="form-control"
+								id="login"
+								name="login"
+								required />
+						</div>
+						<div class="form-group" style="margin-top: 5px">
+							<label>Имя:</label>
+							<input
+								type="text"
+								class="form-control"
+								id="name"
+								name="name"
+								required />
+						</div>
+						<div class="form-group" style="margin-top: 5px">
+							<label>Фамилия:</label>
+							<input
+								type="text"
+								class="form-control"
+								id="surname"
+								name="surname"
+								required />
+						</div>
+						<div class="form-group" style="margin-top: 5px">
+							<label>Email:</label>
+							<input
+								type="email"
+								class="form-control"
+								id="email"
+								name="email"
+								required />
+						</div>
+						<div class="form-group" style="margin-top: 5px">
+							<label>Пароль:</label>
+							<input
+								type="password"
+								class="form-control"
+								id="password"
+								name="password"
+								required />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button
+							class="register-button btn btn-success"
+							type="button">
+							Добавить
+						</button>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal">
+							Закрыть окно
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <main>
-      {% block content %}
+		<div
+			class="modal fade"
+			id="exampleModalToggle3"
+			aria-hidden="true"
+			aria-labelledby="exampleModalToggleLabel2"
+			tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1
+							class="modal-title fs-5"
+							id="exampleModalToggleLabel2">
+							Создание мероприятия
+						</h1>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="event-form" enctype="multipart/form-data">
+							<div class="form-group" style="margin-top: 5px">
+								<label>Название мероприятия:</label>
+								<input
+									type="text"
+									class="form-control"
+									id="title"
+									name="title"
+									required />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Описание:</label>
+								<textarea
+									class="form-control"
+									id="description"
+									name="description"></textarea>
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Город:</label>
+								<input
+									type="text"
+									class="form-control"
+									id="city"
+									name="city"
+									required />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Место:</label>
+								<input
+									type="text"
+									class="form-control"
+									id="place"
+									name="place"
+									required />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Дата начала:</label>
+								<input
+									type="datetime-local"
+									class="form-control"
+									id="start_datetime"
+									name="start_datetime"
+									required />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Дата окончания:</label>
+								<input
+									type="datetime-local"
+									class="form-control"
+									id="end_datetime"
+									name="end_datetime"
+									required />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Категория:</label>
+								<select
+									class="form-control"
+									id="category"
+									name="category"
+									required>
+									<option value="">Выберите категорию</option>
+								</select>
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Изображение:</label>
+								<input
+									type="file"
+									class="form-control"
+									id="image"
+									name="image" />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Цена:</label>
+								<input
+									type="number"
+									step="0.01"
+									class="form-control"
+									id="price"
+									name="price" />
+							</div>
+							<div class="form-group" style="margin-top: 5px">
+								<label>Вместимость:</label>
+								<input
+									type="number"
+									class="form-control"
+									id="capacity"
+									name="capacity" />
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button
+							class="create-event-button btn btn-success"
+							type="button"
+							id="submitEvent">
+							Добавить
+						</button>
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal">
+							Закрыть окно
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-      {% endblock %}
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <!-- Включение jQuery и ajax для отправки формы без перезагрузки -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script>
-		window.csrfToken = '{{ csrf_token }}';
-		window.loginUrl = '{% url "login" %}';
-		window.registerUrl = '{% url "register" %}';
-		window.getCategoriesUrl = '{% url "get_categories" %}';
-		window.createEventUrl = '{% url "create_event" %}';
-	  </script>
-	  
-	  <script src="{% static 'js/app.js' %}"></script>
-  </body>
+		<main>{% block content %} {% endblock %}</main>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"></script>
+		<!-- Включение jQuery и ajax для отправки формы без перезагрузки -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			window.csrfToken = '{{ csrf_token }}';
+			window.loginUrl = '{% url "login" %}';
+			window.registerUrl = '{% url "register" %}';
+			window.getCategoriesUrl = '{% url "get_categories" %}';
+			window.createEventUrl = '{% url "create_event" %}';
+		</script>
+
+		<script src="{% static 'js/app.js' %}"></script>
+	</body>
 </html>
