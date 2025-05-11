@@ -1,46 +1,120 @@
-{% extends 'main/layout.html' %} {% block title %}Мероприятия{% endblock %}
+{% extends 'main/layout.html' %} {% block title %}
+  Мероприятия
+{% endblock %}
 {% load custom_filters %}
-{%block content %}
-
-<h2 class="events-title">Мероприятия</h2>
-<div class="filter-block">
-	<button class="filter-btn">
-		<svg width="20" height="20" viewBox="0 0 24 24">
-			<path d="M3 5h18v2H3zm4 6h10v2H7zm6 6h4v2h-4z" />
-		</svg>
-		Фильтры
-	</button>
-	<ul class="filter-list">
-		<li>
-			<label><input type="checkbox" /> Образовательные</label>
-		</li>
-		<li>
-			<label><input type="checkbox" /> Развлекательные</label>
-		</li>
-		<li>
-			<label><input type="checkbox" /> Рабочее</label>
-		</li>
-		<li>
-			<label><input type="checkbox" /> ...</label>
-		</li>
-	</ul>
-</div>
-<div class="events-grid">
+{% block content %}
+  <h2 class="events-title">Мероприятия</h2>
+  <div class="filter-block">
+    <button class="filter-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M3 5h18v2H3zm4 6h10v2H7zm6 6h4v2h-4z" />
+      </svg>Фильтры
+    </button>
+    <ul class="filter-list">
+      <li>
+        <label><input type="checkbox" />Образовательные</label>
+      </li>
+      <li>
+        <label><input type="checkbox" />Развлекательные</label>
+      </li>
+      <li>
+        <label><input type="checkbox" />Рабочее</label>
+      </li>
+      <li>
+        <label><input type="checkbox" />...</label>
+      </li>
+    </ul>
+  </div>
+  <div class="events-grid">
     {% for event in events %}
-    <div class="event-card">
+      <div class="event-card">
         <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-img" />
         <div class="event-body">
-            <h3 class="event-title">{{ event.title }}</h3>
-            <p class="event-info">
-                <span class="event-city">{{ event.city }}</span><br/>
-                <span class="event-date">{{ event.start_datetime|date:"l" }}, {{ event.start_datetime|ru_date }}</span>
-            </p>
-            <a href="#" class="event-btn">Подробнее</a>
+          <h3 class="event-title">{{ event.title }}</h3>
+          <p class="event-info">
+            <span class="event-city">{{ event.city }}</span><br />
+            <span class="event-date">{{ event.start_datetime|date:'l' }}, {{ event.start_datetime|ru_date }}</span>
+          </p>
+          <a class="event-btn" data-bs-toggle="modal" data-bs-target="#aboutEvent{{ event.id }}">Подробнее</a>
         </div>
-    </div>
-    {% empty %}
-    <p>Мероприятия не найдены.</p>
-    {% endfor %}
-</div>
+      </div>
 
+      <div class="modal fade" id="aboutEvent{{ event.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ event.title }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+              {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-3" />
+              {% endif %}
+
+              <p>
+                <strong>Описание:</strong><br />{{ event.description|linebreaksbr }}
+              </p>
+
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <p>
+                    <strong>Город:</strong> {{ event.city }}
+                  </p>
+                  <p>
+                    <strong>Место проведения:</strong> {{ event.place }}
+                  </p>
+                  {% if event.address %}
+                    <p>
+                      <strong>Адрес:</strong> {{ event.address }}
+                    </p>
+                  {% endif %}
+                </div>
+                <div class="col-md-6">
+                  <p>
+                    <strong>Дата и время начала:</strong><br /> {{ event.start_datetime|date:'d E Y, H:i' }}
+                  </p>
+                  <p>
+                    <strong>Окончание:</strong><br /> {{ event.end_datetime|date:'d E Y, H:i' }}
+                  </p>
+                  {% if event.category %}
+                    <p>
+                      <strong>Категория:</strong> {{ event.category.name }}
+                    </p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="row">
+                <div class="col-md-6">
+                  <p>
+                    <strong>Организатор:</strong> {{ event.organizer.get_full_name|default:event.organizer.username }}
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <p>
+                    <strong>Стоимость:</strong> {{ event.price|floatformat:2 }} ₽
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <p>
+                    <strong>Вместимость:</strong> {{ event.capacity|default:'Не указано' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+              <button type="button" class="btn btn-primary">Записаться</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Мероприятия не найдены.</p>
+    {% endfor %}
+  </div>
 {% endblock %}
