@@ -108,7 +108,9 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+              {% if user.is_authenticated %}
               <button type="button" class="btn btn-primary">Записаться</button>
+              {% endif %}
             </div>
           </div>
         </div>
