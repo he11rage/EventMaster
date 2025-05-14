@@ -17,7 +17,6 @@ build/
 
 # Django specific
 /staticfiles/
-/media/
 /.env
 .env.*
 local_settings.py
