@@ -9,6 +9,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Category, Event
 
+
+def main(request):
+    return render(request, "main/main-page.html")
+
 def home(request):
     events = Event.objects.all()
     return render(request, "main/index.html", {'events': events})

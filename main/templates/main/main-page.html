@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/main-page.css' %}" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+    <title>Главная страница</title>
+</head>
+<body>
+    <div class="container">
+        <!-- <div class="content-left"> -->
+            <h1 class="main-title">
+                <span class="title-gray">ВАШЕ РЕШЕНИЕ ДЛЯ</span>
+                <span class="title-blue">КОНФЕРЕНЦИЙ</span>
+            </h1>
+        <!-- </div> -->
+        <a href="{% url 'home' %}" class="enter-button">Войти на сайт</a>
+        <div class="clouds-container">
+            <img class="cloud-blue" src="{% static 'img/clouds 1.png' %}" alt="clouds-1">
+            <img class="cloud-white" src="{% static 'img/clouds 2.png' %}" alt="clouds-2">
+        </div>
+
+        <div class="icons-container">
+            <div class="icon-circle tablet">
+                <img src="{% static 'img/tablet.png' %}" alt="tablet-icon">
+            </div>
+            <div class="icon-circle fingerprint">
+                <img src="{% static 'img/fingerprint.png' %}" alt="fingerprint-icon">
+            </div>
+            <div class="icon-circle laptop">
+                <img src="{% static 'img/laptop.png' %}" alt="laptop-icon">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+ 
+    
+    
