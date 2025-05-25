@@ -31,6 +31,9 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('get_categories/', views.get_categories, name='get_categories'),
     path('create_event/', views.create_event, name='create_event'),
+    path('my-events-json/', views.user_events_json, name='user_events_json'),
+    path('events/register/<int:event_id>/', views.register_for_event, name='register_for_event'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

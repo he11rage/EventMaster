@@ -8,6 +8,13 @@ from .models import Event
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Category, Event
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Event, EventRegistration
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.views.decorators.http import require_POST
 
 
 def main(request):
@@ -111,3 +118,28 @@ def create_event(request):
 
 def schedule(request):
     return render(request, "main/schedule.html")
+
+@login_required
+def user_events_json(request):
+    registrations = EventRegistration.objects.filter(user=request.user).select_related('event')
+    data = [
+        {
+            'title': reg.event.title,
+            'start': reg.event.start_datetime.isoformat(),
+            'end': reg.event.end_datetime.isoformat() if reg.event.end_datetime else None,
+        }
+        for reg in registrations
+    ]
+    return JsonResponse(data, safe=False)
+
+@login_required
+@require_POST
+def register_for_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+
+    already_registered = EventRegistration.objects.filter(user=request.user, event=event).exists()
+    if already_registered:
+        return JsonResponse({'success': False, 'message': 'Вы уже записались на это мероприятие.'})
+
+    EventRegistration.objects.create(user=request.user, event=event)
+    return JsonResponse({'success': True, 'message': 'Вы успешно записались!'})

@@ -7,8 +7,6 @@ class Category(models.Model):
     def __str__(self):
         return str(self.name)
 
-
-# Create your models here.
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -25,3 +23,14 @@ class Event(models.Model):
     is_active = models.BooleanField(default=True) # type: ignore
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class EventRegistration(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='registrations')
+    registered_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'event')  # один пользователь — одна запись на событие
+        
+    def __str__(self):
+        return f"{self.user.username} -> {self.event.title}"
