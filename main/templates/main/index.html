@@ -124,32 +124,4 @@
       <p>Мероприятия не найдены.</p>
     {% endfor %}
   </div>
-
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const checkboxes = document.querySelectorAll('.category-checkbox');
-    const eventCards = document.querySelectorAll('.event-card');
-
-    function updateVisibility() {
-      // Собираем все выбранные категории
-      const selected = Array.from(checkboxes)
-        .filter(cb => cb.checked)
-        .map(cb => cb.value);
-
-      eventCards.forEach(card => {
-        const cardCategory = card.dataset.category;
-
-        // Если ничего не выбрано — показываем всё
-        if (selected.length === 0 || selected.includes(cardCategory)) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-    }
-
-    // Вешаем обработчик на каждый чекбокс
-    checkboxes.forEach(cb => cb.addEventListener('change', updateVisibility));
-  });
-</script>
 {% endblock %}
