@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import CreateView
 from django.contrib.auth.models import User
-from .models import Event
+from .models import Event, Category
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Category, Event
@@ -22,7 +22,11 @@ def main(request):
 
 def home(request):
     events = Event.objects.all()
-    return render(request, "main/index.html", {'events': events})
+    categories = Category.objects.all()
+    return render(request, "main/index.html", {
+        'events': events,
+        'categories': categories,
+    })
 
 
 def login_view(request):

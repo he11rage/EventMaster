@@ -11,23 +11,19 @@
       </svg>Фильтры
     </button>
     <ul class="filter-list">
-      <li>
-        <label><input type="checkbox" />Образовательные</label>
-      </li>
-      <li>
-        <label><input type="checkbox" />Развлекательные</label>
-      </li>
-      <li>
-        <label><input type="checkbox" />Рабочее</label>
-      </li>
-      <li>
-        <label><input type="checkbox" />...</label>
-      </li>
+      {% for category in categories %}
+        <li>
+          <label>
+            <input type="checkbox" class="category-checkbox" value="{{ category.slug|default:category.name }}" />
+            {{ category.name }}
+          </label>
+        </li>
+      {% endfor %}
     </ul>
   </div>
   <div class="events-grid">
     {% for event in events %}
-      <div class="event-card">
+      <div class="event-card" data-category="{{ event.category.slug|default:event.category.name }}">
         <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-img" />
         <div class="event-body">
           <h3 class="event-title">{{ event.title }}</h3>
@@ -128,4 +124,32 @@
       <p>Мероприятия не найдены.</p>
     {% endfor %}
   </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.category-checkbox');
+    const eventCards = document.querySelectorAll('.event-card');
+
+    function updateVisibility() {
+      // Собираем все выбранные категории
+      const selected = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+
+      eventCards.forEach(card => {
+        const cardCategory = card.dataset.category;
+
+        // Если ничего не выбрано — показываем всё
+        if (selected.length === 0 || selected.includes(cardCategory)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Вешаем обработчик на каждый чекбокс
+    checkboxes.forEach(cb => cb.addEventListener('change', updateVisibility));
+  });
+</script>
 {% endblock %}

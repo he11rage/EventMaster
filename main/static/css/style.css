@@ -3,7 +3,6 @@ body {
 	padding: 0;
 	display: flex;
 	height: 100%;
-	overflow: hidden;
 }
 
 .events-title {
@@ -203,4 +202,8 @@ main {
 	cursor: pointer;
 	float: right;
 	font-size: 20px;
+}
+
+.hidden {
+  display: none !important;
 }
