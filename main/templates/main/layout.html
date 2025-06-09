@@ -36,8 +36,12 @@
   </head>
   <body>
     <aside class="left-menu">
-      <img class="user-image" src="{% static 'img/user.svg' %}" alt="Фото пользователя" width="80px" height="90px" />
-
+      <a href="{% url 'main-page' %}" class="logo-link">
+        <img class="logo-image" src="{% static 'img/Logo.svg' %}" alt="Логотип" width="92px" height="62px" />
+      </a>
+      <div class="user-container">
+        <img class="user-image" src="{% static 'img/user.svg' %}" alt="Фото пользователя" width="90px" height="90px" />
+      </div>
       {% if user.is_authenticated %}
         <h3 class="name">{{ user.first_name }} {{ user.last_name }}</h3>
         <form action="{% url 'logout' %}" method="post">

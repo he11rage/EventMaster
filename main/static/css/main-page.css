@@ -13,13 +13,18 @@ body {
     height: 100%;
     justify-content: space-between;
     padding: 0 100px;
-    padding-left: 170px;
+    padding-left: 160px;
 }
 
 .content-left {
     width: 800px;
     height: 350px;
     z-index: 10;
+}
+
+.logo-link {
+    position: absolute;
+    bottom: 105px;
 }
 
 .main-title {

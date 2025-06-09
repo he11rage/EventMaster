@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,12 +11,17 @@
     <title>Главная страница</title>
 </head>
 <body>
-    <div class="container">
-        <!-- <div class="content-left"> -->
-            <h1 class="main-title">
-                <span class="title-gray">ВАШЕ РЕШЕНИЕ ДЛЯ</span>
-                <span class="title-blue">КОНФЕРЕНЦИЙ</span>
-            </h1>
+    <div class="container" style="padding-left: 100px;">
+        <a href="{% url 'main-page' %}" class="logo-link" style="
+        position: absolute;
+        bottom: 105px;
+        ">
+            <img class="logo-image" src="{% static 'img/Logo.svg' %}" alt="Логотип" width="92px" height="62px" />
+        </a>
+        <h1 class="main-title">
+        <span class="title-gray">ВАШЕ РЕШЕНИЕ ДЛЯ</span>
+        <span class="title-blue">КОНФЕРЕНЦИЙ</span>
+        </h1>
         <!-- </div> -->
         <a href="{% url 'home' %}" class="enter-button">Войти на сайт</a>
         <div class="clouds-container">
